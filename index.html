@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <title>Contadoria Judicial - PE</title>
 
-<!-- ✅ Chart.js corrigido -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
 body{
+    /* 👉 AQUI: TAMANHO DA FONTE GERAL DA TELA (navegador) */
+    font-size: 14px; 
     font-family:Arial;
     background:#ddd;
     margin:0;
@@ -31,7 +32,7 @@ header img{
     border-radius:5px;
 }
 
-.container{padding:;}
+.container{padding:10px;}
 
 #drop{
     border:2px dashed #aaa;
@@ -45,14 +46,20 @@ header img{
 .filtros-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:;
-    margin-top:;
+    gap:10px;
+    margin-top:10px;
 }
 
 .filtro{
     background:#eee;
-    padding:;
+    padding:10px;
     border:1px solid #bbb;
+}
+
+/* 👉 AQUI: ESPAÇAMENTO ENTRE O TÍTULO E OS BOTÕES DENTRO DOS QUADROS */
+.filtro b {
+    display: inline-block;
+    margin-bottom: 15px; /* Aumente ou diminua esse valor */
 }
 
 .filtro button{
@@ -71,15 +78,15 @@ header img{
 /* COLUNAS */
 .colunas{
     background:white;
-    padding:;
-    margin-top:;
+    padding:10px;
+    margin-top:10px;
 }
 
 /* TABELA */
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:;
+    margin-top:10px;
 }
 
 th{
@@ -120,9 +127,8 @@ button{
 
     <h3>Total filtrado: <span id="total">0</span></h3>
 
-    <!-- COLUNAS -->
     <div class="colunas">
-        <b>Colunas:</b><br>
+        <b>Colunas:</b><br><br>
         <label><input type="checkbox" checked id="c1" onchange="render()"> Processo</label>
         <label><input type="checkbox" id="c2" onchange="render()"> Autor</label>
         <label><input type="checkbox" checked id="c3" onchange="render()"> Réu</label>
@@ -133,7 +139,6 @@ button{
         <label><input type="checkbox" id="c8" onchange="render()"> Dias</label>
     </div>
 
-    <!-- FILTROS -->
     <div id="filtros" class="filtros-grid"></div>
 
     <table>
@@ -335,7 +340,11 @@ function gerarPDF(){
 
     let dataHora = `${dia}/${mes}/${ano} ${hora}:${min}:${seg}`;
 
-     // ================= NUMERO DO RELATÓRIO
+    // ================= NOME DO ARQUIVO (PDF)
+    // Gera algo como: RELATORIO-TRIAGEM-CONTJEF-18052026-144239
+    let nomeArquivo = `RELATORIO-TRIAGEM-CONTJEF-${dia}${mes}${ano}-${hora}${min}${seg}`;
+
+    // ================= NUMERO DO RELATÓRIO
     let numeroRelatorio = `CONTJEFPE-TRI-${Date.now()}`; // único
 
     // ================= TEXTO FILTROS
@@ -348,6 +357,8 @@ function gerarPDF(){
 
     // ================= HTML PDF
     let html = `
+    <title>${nomeArquivo}</title>
+
     <style>
     /* === ESSA É A REGRA QUE FORÇA A IMPRESSÃO DAS CORES === */
     * {
@@ -355,17 +366,9 @@ function gerarPDF(){
         print-color-adjust: exact !important;
     }
 
-    body {
-        font-family: Arial, sans-serif;
-        font-size: 12px; /* 👈 AQUI VOCÊ CONTROLA A FONTE GERAL DO PDF */
-    }
-
-    /* Se quiser a tabela com uma fonte menor para caber mais coisas: */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-        font-size: 10px; /* 👈 TAMANHO DA FONTE SÓ DA TABELA */
+    body{
+        font-family:Arial, sans-serif;
+        font-size: 12px; 
     }
 
     .header{
@@ -378,13 +381,13 @@ function gerarPDF(){
     }
 
     .header h3 {
-        font-size: 18px; /* 👈 TAMANHO DO TÍTULO DO CABEÇALHO */
-        margin: 0;
+        font-size: 18px; 
+        margin:0;
     }
 
     .header p {
-        font-size: 14px; /* 👈 TAMANHO DO SUBTÍTULO DO CABEÇALHO */
-        margin: 0;
+        font-size: 14px; 
+        margin:0;
     }
 
     .header img{
@@ -394,12 +397,19 @@ function gerarPDF(){
         border-radius:5px;
     }
 
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top: 15px;
+        font-size: 10px; 
+    }
+
     th{
         background:#64b5f6 !important;
         color:white;
     }
 
-    td, th{
+    td,th{
         border:1px solid #ccc;
         padding:5px;
     }
@@ -410,14 +420,15 @@ function gerarPDF(){
 
     .footer{
         margin-top:20px;
-        font-size: 10px; /* 👈 TAMANHO DA FONTE DO RODAPÉ */
+        font-size:10px; 
         color: #555;
     }
     </style>
+
     <div class="header">
         <div>
-            <h3 style="margin:0;">Contadoria Judicial</h3>
-            <p style="margin:0;">Justiça Federal em Pernambuco</p>
+            <h3>Contadoria Judicial</h3>
+            <p>Justiça Federal em Pernambuco</p>
         </div>
     </div>
 
@@ -437,7 +448,7 @@ function gerarPDF(){
     // ================= ABRIR
     let win = window.open("", "_blank");
     win.document.write(html);
-    win.document.close(); // Importante para garantir que a página carregue completamente
+    win.document.close(); 
     win.focus();
     win.print();
 
